@@ -1,0 +1,125 @@
+drop database user;
+create database user;
+use user;
+
+create table buyer(
+buyer_id varchar(5) primary key,
+name varchar(30) not null,
+email varchar(30) not null,
+phone_number varchar(10) not null,
+password varchar(20) not null,
+is_priviledged varchar(5),
+reward_points integer,
+is_active varchar(5)
+);
+
+insert into buyer values("B1", "Sakshi Manjri", "bklolsakshi@email.com", 7044923122, "SakshiIsBigBklol@69", "true", 250, "true");
+INSERT INTO buyer ('buyer_id',`name`, `email`, `phone_number`, `password`) VALUES ('B2','Alex singh', 'alex123@gmail.com', '8044923122', 'Alex123*');
+
+use user;
+
+create table seller(
+seller_id varchar(5) primary key,
+name varchar(30) not null,
+email varchar(30) not null,
+phone_number varchar(10) not null,
+password varchar(20) not null,
+is_active varchar(5)
+);
+
+insert into seller values("S1", "Sujan Mitra", "sujanmitra@email.com", 987654321, "SakshiIsVCute@77", "true");
+
+use user;
+create table wishlist(
+buyer_id varchar(5) ,
+prod_id integer(5),
+constraint primary key(buyer_id, prod_id)
+);
+
+
+
+use user;
+create table cart(
+buyer_id varchar(5),
+prod_id integer(5),
+quantity integer,
+constraint primary key(buyer_id, prod_id)
+);
+
+drop schema product_db;
+create schema product_db;
+use product_db;
+
+ use product_db;
+create table product(
+prod_id integer primary key,
+product_name varchar(100),
+price decimal(7,2),
+stock integer,
+description varchar(500),
+image varchar(30),
+sellerid varchar(5),
+category varchar(30),
+subcategory varchar(30),
+product_rating decimal(3,2) );
+
+use product_db;
+create table subscribedproduct(
+buyer_id varchar(5),
+prod_id integer,
+quantity integer,
+primary key(buyer_id,prod_id) );
+
+
+insert into product values(301,'Samsung Galaxy M31',14999.00,15,'Ocean blue colour, 6GB/128GB, Exynos 9611 Processor 2.3GHz Octa Core, 64MP Quad Camera, 6.4 inches display,6000 mAh Battery ','samsung-galaxyM31.png','S1','Mobiles','SmartPhones',4.5);
+insert into product values(302,'Redmi 9',8499,30,'Carbon black colour, 4GB/64GB, Helio G35 Processor 2.3GHz Octa Core, 13+2MP Rear Camera, 6.53-inch Display, 5000 mAh Battery', 'redmi-9.png','S1','Mobiles','SmartPhones',4); 
+insert into product values(303,'Relame 8',16999,25,'Cyber silver colour, 8GB/128GB, MediaTekHelio G95 Processor 2.3GHz Octa Core, 64MP Quad Camera, 6.4-inch Display, 5000 mAh Battery', 'realme-8.png','S1','Mobiles','SmartPhones',4.3); 
+insert into product values(304,'Mi 4A PRO 80 cm(32 inch)',14999,18 ,' Android TV with Google Data Saver, HD Ready 1366 x 768 Pixels, 20 W Sound Output, 3 x HDMI, 2 x USB, 2 Speakers, 60 Hz Refresh Rate, LED, Built in Wi-Fi','mi-4aTV.png','S2','Electronics','Televisions',4.3);
+insert into product values(305,'Realme 80 cm(32 inch) HD Ready LED TV',15999,20, ' Android TV, HD Ready 1366 x 768 Pixels, 24 W Sound Output, 3 x HDMI, 2 x USB, 4 Speakers, 60 Hz Refresh Rate, LED, Built in Wi-Fi','realme-80TV.png','S2','Electronics','Televisions',4.6);
+insert into product values(306,'Samsung 80 cm(32 inch) HD Ready LED Smart TV',16999,20, 'HD Ready 1366 x 768 Pixels, 20 W Sound Output, 2 x HDMI, 1 x USB, 2 Speakers, 60 Hz Refresh Rate, LED, Built in Wi-Fi','samsung-80TV.png','S3','Electronics','Televisions',4.4);
+
+insert into subscribedproduct values('B1',301,2);
+insert into subscribedproduct values('B1',305,1);
+insert into subscribedproduct values('B3',302,2);
+insert into subscribedproduct values('B4',301,3);
+insert into subscribedproduct values('B4',302,5);
+insert into subscribedproduct values('B4',303,1);
+insert into subscribedproduct values('B5',306,1);
+insert into subscribedproduct values('B5',305,3);
+
+
+
+drop schema order_db;
+create schema order_db;
+use order_db;
+
+create table orders(
+order_id integer primary key,
+buyer_id varchar(5),
+amount decimal(7,2),
+date date,
+address varchar(100),
+status varchar(20) );
+
+
+insert into orders values(401,'B1',16999,25,'2021-05-14','Gandhi nagar,near square mart, Nagpur','Order Placed');
+insert into orders values(402,'B3',14999.00,'2021-04-03','meera road, opposit times square, Delhi','Dispatched');
+insert into orders values(403,'B1',8499.30,'2021-05-23','oasis villa, mahallar road, Mumbai','Delivered');
+insert into orders values(404,'B5',16999.20,'2021-03-20','new layout, infront valley, Karjat','Order Placed');
+insert into orders values(405,'B4',14999.18 ,'2021-05-21','ram nagar, pk valley, Bhopal','Packing');
+insert into orders values(406,'B5',15999.20,'2021-04-30','grant valla, next to kidsschool, Bareli','Dispatched');
+
+create table productsordered(
+buyer_id varchar(5),
+prod_id integer,
+seller_id varchar(5),
+quantity integer,
+primary key(buyer_id,prod_id) );
+
+insert into productsordered values('B1',303,'S1',1);
+insert into productsordered values('B3',300,'S1',2);
+insert into productsordered values('B1',302,'S1',1);
+insert into productsordered values('B5',306,'S3',3);
+insert into productsordered values('B4',304,'S2',1);
+insert into productsordered values('B5',305,'S2',1);
+
